@@ -1,36 +1,27 @@
-# LinkedIn Post — PromptWars Challenge 3
+# LinkedIn Post
 
----
+So I found this PromptWars Virtual hackathon online and decided to take a stab at it. It's a bi-weekly challenge by Google for Developers and Hack2Skill where you build cool projects with AI tools. Seemed like a fun way to practice, so I spent the weekend working on a submission for Challenge 3.
 
-## Caption (Copy-Paste Ready)
+I built EcoTrace – a simple web app to track carbon footprint awareness. 
 
----
+Instead of showing boring numbers and guilt-tripping people about emissions, I wanted to make habit-tracking visual. You log simple actions (like walking to work or eating a plant-based meal), and those actions directly grow a digital, animated forest on your screen. The better your habits, the richer your forest becomes with trees and birds.
 
-🌿 Just built something I'm genuinely proud of — **EcoTrace**, a Carbon Footprint Awareness Platform for **#PromptWarsVirtual Challenge 3**.
+Some quick features I added:
+- Onboarding quiz to tailor sustainability tips to your lifestyle.
+- Daily habit logger that dynamically updates the SVG forest.
+- Micro-impact popups to show exactly how much carbon you saved.
+- A streak tracker to help stay consistent.
 
-Instead of building a dashboard full of CO₂ numbers, I designed a **living digital ecosystem** that grows as you make better daily choices. 🌱
+It's built entirely using vanilla HTML, CSS, and JS. No heavy frameworks, just simple and fast code.
 
-Here's what makes it different:
+Here's the live link to check it out:
+https://carbon-footprint-awareness-platform-snowy.vercel.app/
 
-🌲 **A growing digital forest** — log a vegan meal or cycle to work, and a new tree appears in your personal ecosystem
-💬 **Conversational habit logging** — no forms, just friendly questions like *"How did you commute today?"*
-🏆 **6-tier gamified progression** — from Seed → Sprout → Plant → Tree → Forest Guardian → Earth Champion
-🤖 **AI Sustainability Coach** — encouraging, non-judgmental insights tailored to your highest impact areas
-🌍 **Community forest** — see your contributions join a shared ecosystem
+Code is here if you want to look under the hood:
+https://github.com/parthpatidar03/Carbon-Footprint-Awareness-Platform
 
-Built entirely with **HTML, CSS & Vanilla JS** — zero frameworks, zero bloat. Powered by AI-assisted development.
+And if you want to participate in the next PromptWars challenge, you can sign up at promptwars.in
 
-The idea: Don't guilt users about carbon. Empower them to watch a forest come to life. 🌳
+Let me know what you think!
 
-🔗 Check out the project: https://github.com/parthpatidar03/Carbon-Footprint-Awareness-Platform
-
-#BuildwithAI #PromptWarsVirtual #Challenge3 #Sustainability #ClimateAction #WebDevelopment #AIForGood #GreenTech
-
-@googlefordevelopers @hack2skill
-
----
-
-## Post Tips
-- Attach a screenshot of the forest dashboard growing (after logging a walk + vegan meal)
-- Or use the recording: e2e_living_earth_verification.webp from the brain directory
-- Best time to post: Morning (8–10am IST) or Evening (6–8pm IST) for max reach
+#PromptWars #BuildwithAI #Sustainability #WebDevelopment #JavaScript #GreenTech
