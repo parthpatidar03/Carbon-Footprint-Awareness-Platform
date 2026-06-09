@@ -3,425 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrace // Carbon Footprint Tracker</title>
+    <title>EcoTrace // Living Earth</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme">
-    <div class="glow-bg"></div>
-    <div class="glow-bg-2"></div>
-    
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <i data-lucide="leaf" class="logo-icon"></i>
-                <span class="logo-text">Eco<span>Trace</span></span>
+<body>
+    <div class="organic-shape-bg"></div>
+    <div class="organic-shape-bg-2"></div>
+
+    <div class="app-wrapper">
+        <!-- TOP NAVIGATION -->
+        <header class="top-nav">
+            <div class="brand-logo">
+                <i data-lucide="sprout"></i>
+                <span>EcoTrace</span>
             </div>
-            
-            <nav class="nav-menu">
-                <a href="#dashboard" class="nav-item active" id="nav-dashboard">
-                    <i data-lucide="layout-dashboard"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#calculator" class="nav-item" id="nav-calculator">
-                    <i data-lucide="calculator"></i>
-                    <span>Calculator</span>
-                </a>
-                <a href="#tracker" class="nav-item" id="nav-tracker">
-                    <i data-lucide="calendar-days"></i>
-                    <span>Daily Log</span>
-                </a>
-                <a href="#challenges" class="nav-item" id="nav-challenges">
-                    <i data-lucide="award"></i>
-                    <span>Eco Actions</span>
-                </a>
-                <a href="#profile" class="nav-item" id="nav-profile">
-                    <i data-lucide="user"></i>
-                    <span>Profile</span>
-                </a>
-            </nav>
-            
-            <div class="user-quick-profile">
-                <div class="quick-avatar" id="quick-avatar">P</div>
-                <div class="quick-info">
-                    <div class="quick-name" id="quick-name">Parth Patidar</div>
-                    <div class="quick-level">Level <span id="quick-level-val">1</span> Eco-Citizen</div>
-                </div>
-            </div>
-        </aside>
+            <button class="btn-nav-action" id="btn-enter-app" onclick="enterApp()">Go to My Forest</button>
+        </header>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="top-header">
-                <div class="header-title">
-                    <h1 id="page-heading">Dashboard</h1>
-                    <p id="page-subheading" class="subtitle">Real-time footprint insights and analytics</p>
+        <!-- LANDING PAGE VIEW -->
+        <div id="landing-view" class="landing-view">
+            <section class="hero-section">
+                <div class="hero-text">
+                    <h1>Small Actions.<br><span>Greener Future.</span></h1>
+                    <p>Track daily habits, grow your virtual ecosystem, and build healthy habits for the planet in a calm, encouraging space.</p>
+                    <button class="btn-nav-action" onclick="enterApp()">Calculate My Impact</button>
                 </div>
-                <div class="header-actions">
-                    <button class="action-btn" id="theme-toggle" title="Toggle Theme">
-                        <i data-lucide="sun" class="sun-icon"></i>
-                        <i data-lucide="moon" class="moon-icon"></i>
-                    </button>
-                    <div class="streak-badge">
-                        <i data-lucide="flame"></i>
-                        <span><span id="streak-count">0</span> Day Streak</span>
+                <div class="hero-visual">
+                    <div class="forest-showcase">
+                        <div class="forest-landscape">
+                            <div class="sky-bg">
+                                <div class="cloud cloud-1"></div>
+                                <div class="cloud cloud-2"></div>
+                            </div>
+                            <div class="hills-back"></div>
+                            <div class="hills-front"></div>
+                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                                <path d="M0 10 Q 25 15, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8"></path>
+                            </svg>
+                            <div class="forest-assets">
+                                <div class="tree-element" style="border-bottom-color: #2E5E4E; transform: scale(0.8);"></div>
+                                <div class="tree-element" style="border-bottom-color: #1F4033; transform: scale(1.1);"></div>
+                                <div class="tree-element" style="border-bottom-color: #4CAF50; transform: scale(0.9);"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </header>
+            </section>
+        </div>
 
-            <!-- Content Sections -->
-            <div class="content-body">
-                
-                <!-- DASHBOARD SECTION -->
-                <section id="sec-dashboard" class="content-section active">
-                    <!-- Stats Grid -->
-                    <div class="stats-grid">
-                        <div class="stat-card glass-card">
-                            <div class="stat-icon-wrapper transport-color">
-                                <i data-lucide="car"></i>
-                            </div>
-                            <div class="stat-details">
-                                <span class="stat-label">Transport</span>
-                                <h3 class="stat-value"><span id="stat-transport">0</span> <span class="unit">kg CO₂e</span></h3>
-                            </div>
+        <!-- APP DASHBOARD VIEW -->
+        <div id="app-view" class="app-view">
+            <div class="dashboard-grid">
+                <!-- Left Column: Living Forest & Stats -->
+                <div class="living-forest-card organic-card">
+                    <div class="section-header">
+                        <h2>Your Living Forest</h2>
+                        <span class="badge-leaf-icon" id="forest-level-badge"><i data-lucide="trees"></i></span>
+                    </div>
+
+                    <!-- Dynamic SVG Forest Render Container -->
+                    <div class="forest-interactive-area">
+                        <div class="forest-stats-overlay">
+                            Score: <span id="forest-eco-score">Seed</span>
                         </div>
-                        <div class="stat-card glass-card">
-                            <div class="stat-icon-wrapper energy-color">
-                                <i data-lucide="zap"></i>
+                        <div class="forest-landscape">
+                            <div class="sky-bg" id="app-sky-elements">
+                                <div class="cloud cloud-1"></div>
                             </div>
-                            <div class="stat-details">
-                                <span class="stat-label">Home Energy</span>
-                                <h3 class="stat-value"><span id="stat-energy">0</span> <span class="unit">kg CO₂e</span></h3>
-                            </div>
-                        </div>
-                        <div class="stat-card glass-card">
-                            <div class="stat-icon-wrapper food-color">
-                                <i data-lucide="beef"></i>
-                            </div>
-                            <div class="stat-details">
-                                <span class="stat-label">Diet & Food</span>
-                                <h3 class="stat-value"><span id="stat-food">0</span> <span class="unit">kg CO₂e</span></h3>
-                            </div>
-                        </div>
-                        <div class="stat-card glass-card">
-                            <div class="stat-icon-wrapper waste-color">
-                                <i data-lucide="trash-2"></i>
-                            </div>
-                            <div class="stat-details">
-                                <span class="stat-label">Waste & Products</span>
-                                <h3 class="stat-value"><span id="stat-waste">0</span> <span class="unit">kg CO₂e</span></h3>
-                            </div>
+                            <!-- Back Hills -->
+                            <div class="hills-back" style="background-color: var(--sage);"></div>
+                            <!-- Dynamic Forest SVG Layer -->
+                            <svg class="svg-forest" id="dynamic-forest-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet">
+                                <!-- Trees and plants rendered dynamically by app.js -->
+                            </svg>
+                            <!-- Front Hills -->
+                            <div class="hills-front" style="background-color: var(--leaf-green);"></div>
+                            <!-- River SVG -->
+                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                                <path id="river-path" d="M0 10 Q 25 12, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8" opacity="0.8"></path>
+                            </svg>
                         </div>
                     </div>
 
-                    <!-- Main Dashboard Layout -->
-                    <div class="dashboard-layout">
-                        <!-- Chart Card -->
-                        <div class="glass-card chart-card-wrapper large-card">
-                            <div class="card-header">
-                                <h3>Carbon Distribution</h3>
-                                <div class="chart-legend-custom">
-                                    <span class="legend-dot transport"></span> Transport
-                                    <span class="legend-dot energy"></span> Energy
-                                    <span class="legend-dot food"></span> Food
-                                    <span class="legend-dot waste"></span> Waste
-                                </div>
+                    <div class="growth-stage-wrapper">
+                        <div class="level-icon-large">🌱</div>
+                        <div class="level-progress-info">
+                            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                                <span>Level <span id="lbl-level">1</span>: <span id="lbl-rank">Seed</span></span>
+                                <span><span id="lbl-xp">0</span> / <span id="lbl-next-xp">100</span> XP</span>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="distributionChart"></canvas>
-                            </div>
-                        </div>
-
-                        <!-- Summary Gauge Card -->
-                        <div class="glass-card summary-gauge-card">
-                            <h3>Total Annual Footprint</h3>
-                            <div class="gauge-display">
-                                <div class="gauge-radial-progress" id="gauge-progress">
-                                    <div class="gauge-inner">
-                                        <span class="gauge-value" id="total-footprint-val">0.0</span>
-                                        <span class="gauge-unit">tonnes/yr</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="gauge-comparison">
-                                <p id="comparison-text">Fill calculator to see comparison.</p>
+                            <div class="level-progress-bar">
+                                <div class="level-progress-fill" id="progress-bar-fill"></div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="dashboard-layout secondary">
-                        <!-- Simulated AI Insights -->
-                        <div class="glass-card insights-card">
-                            <div class="card-header">
-                                <div class="insight-title-group">
-                                    <i data-lucide="sparkles" class="sparkle-icon"></i>
-                                    <h3>Personalized Eco-Insights</h3>
-                                </div>
-                                <span class="badge-pill premium">AI Generated</span>
-                            </div>
-                            <div class="insights-content" id="insights-container">
-                                <p class="placeholder-text">Please complete the initial Carbon Footprint Calculator to generate custom insights.</p>
-                            </div>
-                        </div>
-
-                        <!-- Level progress card -->
-                        <div class="glass-card progress-card">
-                            <h3>Eco Warrior Standing</h3>
-                            <div class="xp-progress-container">
-                                <div class="xp-labels">
-                                    <span>Level <span id="current-level">1</span></span>
-                                    <span>XP: <span id="current-xp">0</span> / <span id="next-level-xp">100</span></span>
-                                </div>
-                                <div class="xp-bar-bg">
-                                    <div class="xp-bar-fill" id="xp-fill-width" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            <div class="rank-name-container">
-                                <span>Current Rank: <strong><span id="rank-name">Seedling</span></strong></span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- CALCULATOR SECTION -->
-                <section id="sec-calculator" class="content-section">
-                    <div class="glass-card calculator-card">
-                        <div class="calc-header">
-                            <h2>Annual Footprint Calculator</h2>
-                            <p>Estimate your annual footprint by answering a few simple questions.</p>
+                <!-- Right Column: Conversational Tracker -->
+                <div class="organic-card" id="tracker-card">
+                    <h3>Log Daily Habit</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">How did you travel and eat today?</p>
+                    
+                    <div class="chat-container">
+                        <!-- Coach Bubble -->
+                        <div class="chat-bubble coach" id="coach-question">
+                            Hello! How did you commute today?
                         </div>
                         
-                        <form id="footprint-form" class="calc-form">
-                            <!-- Transport Step -->
-                            <div class="form-step active" data-step="1">
-                                <h3 class="step-title"><i data-lucide="car"></i> Transport Details</h3>
-                                <div class="input-group">
-                                    <label for="calc-vehicle-type">Primary Vehicle Type</label>
-                                    <select id="calc-vehicle-type">
-                                        <option value="none">No Private Car (Public Transit / Walking / Cycling)</option>
-                                        <option value="petrol-small">Petrol Car (Small / Economy)</option>
-                                        <option value="petrol-medium">Petrol Car (Medium / Sedan)</option>
-                                        <option value="petrol-large">Petrol Car (Large / SUV)</option>
-                                        <option value="diesel">Diesel Car</option>
-                                        <option value="hybrid">Hybrid Vehicle</option>
-                                        <option value="ev">Electric Vehicle (EV)</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-car-distance">Annual Driving Distance (km)</label>
-                                    <input type="number" id="calc-car-distance" min="0" value="0">
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-public-transit">Weekly Public Transit Use (hours)</label>
-                                    <input type="number" id="calc-public-transit" min="0" value="0">
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-flights">Annual Flights taken (hours total)</label>
-                                    <input type="number" id="calc-flights" min="0" value="0">
-                                </div>
-                            </div>
-
-                            <!-- Home Energy Step -->
-                            <div class="form-step" data-step="2">
-                                <h3 class="step-title"><i data-lucide="zap"></i> Home Energy</h3>
-                                <div class="input-group">
-                                    <label for="calc-electricity">Monthly Electricity Bill ($)</label>
-                                    <input type="number" id="calc-electricity" min="0" value="0">
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-clean-energy">Percentage Clean / Renewable Energy</label>
-                                    <input type="range" id="calc-clean-energy" min="0" max="100" value="0">
-                                    <div class="range-value"><span id="clean-energy-val">0</span>%</div>
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-heating-fuel">Primary Heating Fuel</label>
-                                    <select id="calc-heating-fuel">
-                                        <option value="gas">Natural Gas</option>
-                                        <option value="electricity">Electricity</option>
-                                        <option value="oil">Heating Oil</option>
-                                        <option value="none">None / Wood / Solar</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Food and Diet Step -->
-                            <div class="form-step" data-step="3">
-                                <h3 class="step-title"><i data-lucide="beef"></i> Food & Diet</h3>
-                                <div class="input-group">
-                                    <label for="calc-diet">Primary Diet Style</label>
-                                    <select id="calc-diet">
-                                        <option value="heavy-meat">Heavy Meat Eater (Daily Beef/Pork)</option>
-                                        <option value="medium-meat">Average Meat Eater (Mixed Diet)</option>
-                                        <option value="low-meat">Low Meat / Fish Eater</option>
-                                        <option value="vegetarian">Vegetarian</option>
-                                        <option value="vegan">Vegan</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-local-food">Do you prioritize locally sourced food?</label>
-                                    <select id="calc-local-food">
-                                        <option value="no">Rarely / No</option>
-                                        <option value="sometimes">Sometimes</option>
-                                        <option value="always">Always / Mostly</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Waste Step -->
-                            <div class="form-step" data-step="4">
-                                <h3 class="step-title"><i data-lucide="trash-2"></i> Waste & Consumption</h3>
-                                <div class="input-group">
-                                    <label for="calc-waste">Weekly Household Waste Output</label>
-                                    <select id="calc-waste">
-                                        <option value="high">Above Average (Multiple full bags)</option>
-                                        <option value="medium">Average (1-2 bags)</option>
-                                        <option value="low">Minimal (Recycle & Compost, rare landfill waste)</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="calc-recycling">Do you recycle regularly?</label>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="calc-recycle-paper" checked> <label for="calc-recycle-paper">Paper & Cardboard</label>
-                                    </div>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="calc-recycle-plastic" checked> <label for="calc-recycle-plastic">Plastics & Cans</label>
-                                    </div>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="calc-recycle-glass"> <label for="calc-recycle-glass">Glass bottles</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Navigation buttons -->
-                            <div class="step-navigation">
-                                <button type="button" class="btn btn-secondary" id="btn-prev" disabled>Back</button>
-                                <button type="button" class="btn btn-primary" id="btn-next">Next</button>
-                                <button type="submit" class="btn btn-success" id="btn-submit" style="display: none;">Calculate Footprint</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- DAILY LOG SECTION -->
-                <section id="sec-tracker" class="content-section">
-                    <div class="tracker-layout">
-                        <!-- Daily Logger Form -->
-                        <div class="glass-card log-form-card">
-                            <h3>Log Daily Activity</h3>
-                            <p class="subtitle">Quickly track daily transport, meals, and actions to adjust your dashboard metrics.</p>
-                            
-                            <form id="daily-log-form">
-                                <div class="input-group">
-                                    <label for="log-date">Date</label>
-                                    <input type="date" id="log-date" required>
-                                </div>
-                                <div class="input-group">
-                                    <label for="log-transit">Transport (km)</label>
-                                    <input type="number" id="log-transit-dist" placeholder="Distance in km" min="0" value="0">
-                                    <select id="log-transit-mode">
-                                        <option value="car-petrol">Petrol Car</option>
-                                        <option value="car-ev">EV / Hybrid</option>
-                                        <option value="transit">Public Transit (Bus/Train)</option>
-                                        <option value="active">Active Transit (Bike/Walk)</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label for="log-diet">Diet (Today's Primary meals)</label>
-                                    <select id="log-diet">
-                                        <option value="heavy-meat">Heavy Meat</option>
-                                        <option value="mixed">Mixed (Average)</option>
-                                        <option value="vegetarian">Vegetarian</option>
-                                        <option value="vegan">Vegan</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <label>Energy & Waste Savings Today (Select all that apply)</label>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="log-save-lights"> <label for="log-save-lights">Unplugged idle electronics / turned off lights</label>
-                                    </div>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="log-save-short-shower"> <label for="log-save-short-shower">Took short shower (<5 mins)</label>
-                                    </div>
-                                    <div class="checkbox-container">
-                                        <input type="checkbox" id="log-save-no-plastic"> <label for="log-save-no-plastic">Avoided single-use plastics</label>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-block">Add Daily Entry</button>
-                            </form>
-                        </div>
-
-                        <!-- Logs History List -->
-                        <div class="glass-card log-history-card">
-                            <h3>Activity History</h3>
-                            <div class="history-list" id="history-container">
-                                <div class="no-logs">No daily entries logged yet.</div>
-                            </div>
+                        <!-- Conversational Options -->
+                        <div class="chat-options" id="chat-options-container">
+                            <!-- Populated dynamically by app.js -->
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <!-- CHALLENGES SECTION -->
-                <section id="sec-challenges" class="content-section">
-                    <div class="challenges-intro">
-                        <h2>Eco Challenges & Actions</h2>
-                        <p>Commit to sustainable habits. Unlocking challenges awards XP and lowers your carbon footprint metrics!</p>
+                <!-- Challenges & Progress -->
+                <div class="organic-card">
+                    <h3>Eco Challenges</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Simple daily commitments for big impact.</p>
+                    <div id="challenges-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Challenges items -->
                     </div>
+                </div>
 
-                    <div class="challenges-grid" id="challenges-container">
-                        <!-- Dynamic challenge cards generated by app.js -->
+                <!-- Nature Achievements -->
+                <div class="organic-card">
+                    <h3>Ecosystem Badges</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Achievements unlocked as your forest thrives.</p>
+                    <div class="badge-leaf-grid" id="achievements-grid">
+                        <!-- Achievements -->
                     </div>
-                </section>
+                </div>
 
-                <!-- PROFILE SECTION -->
-                <section id="sec-profile" class="content-section">
-                    <div class="profile-layout">
-                        <!-- User card -->
-                        <div class="glass-card profile-user-card">
-                            <div class="avatar-large" id="profile-avatar">P</div>
-                            <h2 id="profile-name-display">Parth Patidar</h2>
-                            <p class="rank-title" id="profile-rank-display">Level 1 Eco-Citizen</p>
-                            
-                            <div class="profile-stats">
-                                <div class="p-stat">
-                                    <span class="p-stat-val" id="profile-total-impact">0</span>
-                                    <span class="p-stat-label">kg CO₂ Saved</span>
-                                </div>
-                                <div class="p-stat">
-                                    <span class="p-stat-val" id="profile-xp-display">0</span>
-                                    <span class="p-stat-label">Total XP</span>
-                                </div>
-                                <div class="p-stat">
-                                    <span class="p-stat-val" id="profile-completed-challenges">0</span>
-                                    <span class="p-stat-label">Eco-Actions Done</span>
+                <!-- AI Coaching Insights -->
+                <div class="organic-card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i data-lucide="sparkles" style="color: var(--warning);"></i>
+                        <h3>Forest Coach Advice</h3>
+                    </div>
+                    <div id="ai-insights-block" style="font-size: 0.95rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Generated coaching advice -->
+                    </div>
+                </div>
+
+                <!-- Community Shared Forest -->
+                <div class="organic-card">
+                    <h3>Community Forest</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">A shared ecosystem growing together.</p>
+                    <div class="community-layout">
+                        <div class="community-forest-visual">
+                            <div class="forest-landscape">
+                                <div class="hills-back" style="background-color: var(--sage); bottom: 15px; height: 80px;"></div>
+                                <div class="hills-front" style="background-color: var(--leaf-green); bottom: 0px; height: 50px;"></div>
+                                <div class="forest-assets" style="bottom: 25px;">
+                                    <div class="tree-element" style="border-bottom-color: #2E5E4E; transform: scale(0.7);"></div>
+                                    <div class="tree-element" style="border-bottom-color: #1F4033; transform: scale(0.9);"></div>
+                                    <div class="tree-element" style="border-bottom-color: #7CB342; transform: scale(0.8);"></div>
+                                    <div class="tree-element" style="border-bottom-color: #4CAF50; transform: scale(0.65);"></div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Badges and Achievements -->
-                        <div class="glass-card profile-achievements-card">
-                            <h3>Unlocked Badges</h3>
-                            <p class="subtitle">Achievements earned from your sustainable choices</p>
-                            <div class="badges-grid" id="badges-container">
-                                <!-- Dynamic badge cards -->
-                            </div>
+                        <div id="community-users" style="display: flex; flex-direction: column;">
+                            <!-- Community members list -->
                         </div>
                     </div>
-                </section>
-
+                </div>
             </div>
-        </main>
+        </div>
+
+        <!-- STICKY BOTTOM NAVIGATION BAR -->
+        <nav class="bottom-nav-bar" id="bottom-nav" style="display: none;">
+            <a href="#" class="bottom-nav-item active" onclick="switchTab('forest', this)">
+                <i data-lucide="trees"></i>
+                <span>My Forest</span>
+            </a>
+            <a href="#" class="bottom-nav-item" onclick="switchTab('tracker', this)">
+                <i data-lucide="message-square-plus"></i>
+                <span>Quick Log</span>
+            </a>
+            <a href="#" class="bottom-nav-item" onclick="switchTab('community', this)">
+                <i data-lucide="users"></i>
+                <span>Community</span>
+            </a>
+        </nav>
     </div>
 
-    <!-- Script Links -->
+    <!-- Application Script -->
     <script src="app.js"></script>
 </body>
 </html>
