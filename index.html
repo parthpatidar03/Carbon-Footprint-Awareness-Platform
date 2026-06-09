@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrace // Living Earth</title>
-    <!-- Google Fonts -->
+    <title>EcoTrace — Living Earth</title>
+    <meta name="description" content="Track your carbon footprint, grow your digital forest, and build green habits — one day at a time.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="organic-shape-bg"></div>
     <div class="organic-shape-bg-2"></div>
+
+    <!-- IMPACT TOAST (floats after log) -->
+    <div id="impact-toast" class="impact-toast" aria-live="polite"></div>
 
     <div class="app-wrapper">
         <!-- TOP NAVIGATION -->
@@ -25,175 +27,237 @@
             <button class="btn-nav-action" id="btn-enter-app" onclick="enterApp()">Go to My Forest</button>
         </header>
 
-        <!-- LANDING PAGE VIEW -->
+        <!-- ====== ONBOARDING QUIZ ====== -->
+        <div id="onboarding-overlay" class="onboarding-overlay" style="display:none;">
+            <div class="onboarding-card">
+                <div class="onboarding-progress-dots" id="onboarding-dots"></div>
+                <div id="onboarding-content"></div>
+            </div>
+        </div>
+
+        <!-- ====== LANDING PAGE ====== -->
         <div id="landing-view" class="landing-view">
             <section class="hero-section">
                 <div class="hero-text">
                     <h1>Small Actions.<br><span>Greener Future.</span></h1>
-                    <p>Track daily habits, grow your virtual ecosystem, and build healthy habits for the planet in a calm, encouraging space.</p>
-                    <button class="btn-nav-action" onclick="enterApp()">Calculate My Impact</button>
+                    <p>Grow a living digital forest by tracking daily habits. Every choice makes your ecosystem thrive.</p>
+                    <button class="btn-nav-action" onclick="startOnboarding()">Start My Journey 🌱</button>
                 </div>
                 <div class="hero-visual">
                     <div class="forest-showcase">
                         <div class="forest-landscape">
                             <div class="sky-bg">
+                                <div class="sun-glow"></div>
                                 <div class="cloud cloud-1"></div>
                                 <div class="cloud cloud-2"></div>
                             </div>
                             <div class="hills-back"></div>
+                            <svg class="svg-hero-forest" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax meet">
+                                <!-- Bush clusters -->
+                                <ellipse cx="60" cy="130" rx="30" ry="16" fill="#7CB342" opacity="0.7"/>
+                                <ellipse cx="340" cy="128" rx="26" ry="14" fill="#A5D6A7" opacity="0.7"/>
+                                <!-- Grass tufts -->
+                                <line x1="90" y1="138" x2="94" y2="122" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="95" y1="138" x2="97" y2="118" stroke="#7CB342" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="100" y1="138" x2="103" y2="124" stroke="#4CAF50" stroke-width="1.5" stroke-linecap="round"/>
+                                <line x1="280" y1="138" x2="282" y2="120" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="287" y1="138" x2="290" y2="125" stroke="#7CB342" stroke-width="1.5" stroke-linecap="round"/>
+                                <!-- Trees -->
+                                <g transform="translate(130,120) scale(0.9)">
+                                    <rect x="-5" y="0" width="10" height="25" fill="#8D6E63"/>
+                                    <circle cx="0" cy="-20" r="18" fill="#2E5E4E"/>
+                                    <circle cx="-10" cy="-25" r="14" fill="#4CAF50"/>
+                                    <circle cx="10" cy="-24" r="12" fill="#7CB342"/>
+                                </g>
+                                <g transform="translate(210,115) scale(1.1)">
+                                    <rect x="-4" y="0" width="8" height="22" fill="#8D6E63"/>
+                                    <polygon points="0,-40 -22,-8 22,-8" fill="#1F4033"/>
+                                    <polygon points="0,-52 -16,-22 16,-22" fill="#2E5E4E"/>
+                                    <polygon points="0,-62 -10,-34 10,-34" fill="#A5D6A7"/>
+                                </g>
+                                <g transform="translate(300,122) scale(0.75)">
+                                    <rect x="-5" y="0" width="10" height="20" fill="#8D6E63"/>
+                                    <circle cx="0" cy="-18" r="16" fill="#2E5E4E"/>
+                                    <circle cx="-8" cy="-23" r="12" fill="#4CAF50"/>
+                                </g>
+                                <!-- Flowers -->
+                                <g transform="translate(170,135)">
+                                    <circle cx="0" cy="0" r="3.5" fill="#F9A825"/>
+                                    <circle cx="-4" cy="0" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="4" cy="0" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="0" cy="-4" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="0" cy="4" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+                                </g>
+                                <g transform="translate(240,137)">
+                                    <circle cx="0" cy="0" r="3" fill="#EC407A"/>
+                                    <circle cx="-3.5" cy="0" r="2" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="3.5" cy="0" r="2" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="0" cy="-3.5" r="2" fill="#FFFFFF" opacity="0.9"/>
+                                    <circle cx="0" cy="3.5" r="2" fill="#FFFFFF" opacity="0.9"/>
+                                </g>
+                                <!-- Animated bird -->
+                                <path class="bird-fly" d="M 30 35 Q 36 28, 42 35 Q 48 28, 54 35" fill="none" stroke="#5F6B65" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
                             <div class="hills-front"></div>
                             <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
                                 <path d="M0 10 Q 25 15, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8"></path>
+                                <path d="M10 14 Q 30 11, 50 14 T 90 14" fill="none" stroke="white" stroke-width="0.5" opacity="0.4"/>
                             </svg>
-                            <div class="forest-assets">
-                                <div class="tree-element" style="border-bottom-color: #2E5E4E; transform: scale(0.8);"></div>
-                                <div class="tree-element" style="border-bottom-color: #1F4033; transform: scale(1.1);"></div>
-                                <div class="tree-element" style="border-bottom-color: #4CAF50; transform: scale(0.9);"></div>
-                            </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works strip -->
+            <section class="how-it-works">
+                <h2>How it works</h2>
+                <div class="hiw-cards">
+                    <div class="hiw-card">
+                        <div class="hiw-icon">📋</div>
+                        <strong>Quick Quiz</strong>
+                        <p>3 simple questions to personalize your experience</p>
+                    </div>
+                    <div class="hiw-card">
+                        <div class="hiw-icon">✅</div>
+                        <strong>Log Daily</strong>
+                        <p>3 taps to log your day — travel, meals, habits</p>
+                    </div>
+                    <div class="hiw-card">
+                        <div class="hiw-icon">🌳</div>
+                        <strong>Watch it Grow</strong>
+                        <p>Your forest grows richer with every positive choice</p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- APP DASHBOARD VIEW -->
+        <!-- ====== APP DASHBOARD VIEW ====== -->
         <div id="app-view" class="app-view">
+
+            <!-- TODAY'S ECO TIP (top of dashboard) -->
+            <div class="organic-card tip-card" id="daily-tip-card">
+                <div class="tip-inner">
+                    <span class="tip-badge">🌿 Today's Tip</span>
+                    <p id="daily-tip-text"></p>
+                </div>
+            </div>
+
             <div class="dashboard-grid">
-                <!-- Left Column: Living Forest & Stats -->
+                <!-- Left: Living Forest -->
                 <div class="living-forest-card organic-card">
                     <div class="section-header">
                         <h2>Your Living Forest</h2>
-                        <span class="badge-leaf-icon" id="forest-level-badge"><i data-lucide="trees"></i></span>
+                        <span id="forest-eco-score" class="rank-chip">Seed</span>
                     </div>
 
-                    <!-- Dynamic SVG Forest Render Container -->
                     <div class="forest-interactive-area">
-                        <div class="forest-stats-overlay">
-                            Score: <span id="forest-eco-score">Seed</span>
-                        </div>
                         <div class="forest-landscape">
-                            <div class="sky-bg" id="app-sky-elements">
+                            <div class="sky-bg">
+                                <div class="sun-glow"></div>
                                 <div class="cloud cloud-1"></div>
+                                <div class="cloud cloud-2"></div>
                             </div>
-                            <!-- Back Hills -->
                             <div class="hills-back" style="background-color: var(--sage);"></div>
-                            <!-- Dynamic Forest SVG Layer -->
-                            <svg class="svg-forest" id="dynamic-forest-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet">
-                                <!-- Trees and plants rendered dynamically by app.js -->
-                            </svg>
-                            <!-- Front Hills -->
+                            <svg class="svg-forest" id="dynamic-forest-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet"></svg>
                             <div class="hills-front" style="background-color: var(--leaf-green);"></div>
-                            <!-- River SVG -->
                             <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
                                 <path id="river-path" d="M0 10 Q 25 12, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8" opacity="0.8"></path>
+                                <path d="M8 13 Q 28 11, 50 13 T 92 13" fill="none" stroke="white" stroke-width="0.5" opacity="0.35"/>
                             </svg>
                         </div>
                     </div>
 
+                    <!-- Level / XP row -->
                     <div class="growth-stage-wrapper">
-                        <div class="level-icon-large">🌱</div>
+                        <div class="level-icon-large" id="rank-emoji">🌱</div>
                         <div class="level-progress-info">
-                            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                            <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px;">
                                 <span>Level <span id="lbl-level">1</span>: <span id="lbl-rank">Seed</span></span>
-                                <span><span id="lbl-xp">0</span> / <span id="lbl-next-xp">100</span> XP</span>
+                                <span><span id="lbl-xp">0</span>/<span id="lbl-next-xp">100</span> XP</span>
                             </div>
                             <div class="level-progress-bar">
                                 <div class="level-progress-fill" id="progress-bar-fill"></div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Right Column: Conversational Tracker -->
-                <div class="organic-card" id="tracker-card">
-                    <h3>Log Daily Habit</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">How did you travel and eat today?</p>
-                    
-                    <div class="chat-container">
-                        <!-- Coach Bubble -->
-                        <div class="chat-bubble coach" id="coach-question">
-                            Hello! How did you commute today?
-                        </div>
-                        
-                        <!-- Conversational Options -->
-                        <div class="chat-options" id="chat-options-container">
-                            <!-- Populated dynamically by app.js -->
-                        </div>
+                    <!-- 7-Day Streak Dots -->
+                    <div class="streak-section">
+                        <span class="streak-label"><i data-lucide="flame"></i> <span id="streak-count">0</span>-day streak</span>
+                        <div class="streak-dots" id="streak-dots"></div>
                     </div>
                 </div>
 
-                <!-- Challenges & Progress -->
+                <!-- Right: Conversational Tracker -->
+                <div class="organic-card" id="tracker-card">
+                    <h3>Log Today's Habits</h3>
+                    <p class="card-sub">3 quick taps — done in seconds.</p>
+                    <div class="chat-container">
+                        <div class="chat-bubble coach" id="coach-question">Hello! How did you commute today?</div>
+                        <div class="chat-options" id="chat-options-container"></div>
+                    </div>
+                </div>
+
+                <!-- Eco Challenges -->
                 <div class="organic-card">
                     <h3>Eco Challenges</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Simple daily commitments for big impact.</p>
-                    <div id="challenges-list" style="display: flex; flex-direction: column; gap: 1rem;">
-                        <!-- Challenges items -->
-                    </div>
+                    <p class="card-sub">Tap to mark complete — earn XP instantly.</p>
+                    <div id="challenges-list"></div>
                 </div>
 
-                <!-- Nature Achievements -->
+                <!-- Ecosystem Badges -->
                 <div class="organic-card">
                     <h3>Ecosystem Badges</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Achievements unlocked as your forest thrives.</p>
-                    <div class="badge-leaf-grid" id="achievements-grid">
-                        <!-- Achievements -->
-                    </div>
+                    <p class="card-sub">Achievements unlocked as your forest thrives.</p>
+                    <div class="badge-leaf-grid" id="achievements-grid"></div>
                 </div>
 
-                <!-- AI Coaching Insights -->
+                <!-- Forest Coach Insights -->
                 <div class="organic-card">
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                        <i data-lucide="sparkles" style="color: var(--warning);"></i>
-                        <h3>Forest Coach Advice</h3>
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+                        <i data-lucide="sparkles" style="color:var(--warning);width:20px;height:20px;"></i>
+                        <h3>Forest Coach</h3>
                     </div>
-                    <div id="ai-insights-block" style="font-size: 0.95rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.75rem;">
-                        <!-- Generated coaching advice -->
-                    </div>
+                    <div id="ai-insights-block" class="insights-list"></div>
                 </div>
 
-                <!-- Community Shared Forest -->
+                <!-- Community Forest -->
                 <div class="organic-card">
                     <h3>Community Forest</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">A shared ecosystem growing together.</p>
+                    <p class="card-sub">A shared ecosystem growing together.</p>
                     <div class="community-layout">
                         <div class="community-forest-visual">
                             <div class="forest-landscape">
-                                <div class="hills-back" style="background-color: var(--sage); bottom: 15px; height: 80px;"></div>
-                                <div class="hills-front" style="background-color: var(--leaf-green); bottom: 0px; height: 50px;"></div>
-                                <div class="forest-assets" style="bottom: 25px;">
-                                    <div class="tree-element" style="border-bottom-color: #2E5E4E; transform: scale(0.7);"></div>
-                                    <div class="tree-element" style="border-bottom-color: #1F4033; transform: scale(0.9);"></div>
-                                    <div class="tree-element" style="border-bottom-color: #7CB342; transform: scale(0.8);"></div>
-                                    <div class="tree-element" style="border-bottom-color: #4CAF50; transform: scale(0.65);"></div>
+                                <div class="hills-back" style="background-color:var(--sage);bottom:15px;height:80px;"></div>
+                                <div class="hills-front" style="background-color:var(--leaf-green);bottom:0;height:50px;"></div>
+                                <div class="forest-assets" style="bottom:25px;">
+                                    <div class="tree-element" style="border-bottom-color:#2E5E4E;transform:scale(0.7);"></div>
+                                    <div class="tree-element" style="border-bottom-color:#1F4033;transform:scale(0.9);"></div>
+                                    <div class="tree-element" style="border-bottom-color:#7CB342;transform:scale(0.8);"></div>
+                                    <div class="tree-element" style="border-bottom-color:#4CAF50;transform:scale(0.65);"></div>
                                 </div>
                             </div>
                         </div>
-                        <div id="community-users" style="display: flex; flex-direction: column;">
-                            <!-- Community members list -->
-                        </div>
+                        <div id="community-users"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- STICKY BOTTOM NAVIGATION BAR -->
-        <nav class="bottom-nav-bar" id="bottom-nav" style="display: none;">
-            <a href="#" class="bottom-nav-item active" onclick="switchTab('forest', this)">
-                <i data-lucide="trees"></i>
-                <span>My Forest</span>
+        <!-- STICKY BOTTOM NAV -->
+        <nav class="bottom-nav-bar" id="bottom-nav" style="display:none;">
+            <a href="#" class="bottom-nav-item active" onclick="switchTab('forest',this)">
+                <i data-lucide="trees"></i><span>My Forest</span>
             </a>
-            <a href="#" class="bottom-nav-item" onclick="switchTab('tracker', this)">
-                <i data-lucide="message-square-plus"></i>
-                <span>Quick Log</span>
+            <a href="#" class="bottom-nav-item" onclick="switchTab('tracker',this)">
+                <i data-lucide="message-square-plus"></i><span>Quick Log</span>
             </a>
-            <a href="#" class="bottom-nav-item" onclick="switchTab('community', this)">
-                <i data-lucide="users"></i>
-                <span>Community</span>
+            <a href="#" class="bottom-nav-item" onclick="switchTab('community',this)">
+                <i data-lucide="users"></i><span>Community</span>
             </a>
         </nav>
     </div>
 
-    <!-- Application Script -->
     <script src="app.js"></script>
 </body>
 </html>
