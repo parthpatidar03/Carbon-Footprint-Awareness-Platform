@@ -2,6 +2,11 @@
 
 > *Small Actions. Greener Future.*
 
+![Preview 1](images/Screenshot%20(2054).png)
+![Preview 2](images/Screenshot%20(2055).png)
+![Preview 3](images/Screenshot%20(2056).png)
+![Preview 4](images/Screenshot%20(2057).png)
+
 A premium, nature-inspired web application that helps individuals understand, track, and reduce their carbon footprint through simple daily actions, a growing virtual forest, gamified progression, and positive AI coaching.
 
 ---
