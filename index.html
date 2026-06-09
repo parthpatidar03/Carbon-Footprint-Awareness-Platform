@@ -22,14 +22,14 @@
         <!-- TOP NAVIGATION -->
         <header class="top-nav">
             <div class="brand-logo">
-                <i data-lucide="sprout"></i>
+                <i data-lucide="sprout" aria-hidden="true"></i>
                 <span>EcoTrace</span>
             </div>
             <button class="btn-nav-action" id="btn-enter-app" onclick="enterApp()">Go to My Forest</button>
         </header>
 
         <!-- ====== ONBOARDING QUIZ ====== -->
-        <div id="onboarding-overlay" class="onboarding-overlay" style="display:none;">
+        <div id="onboarding-overlay" class="onboarding-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
             <div class="onboarding-card">
                 <div class="onboarding-progress-dots" id="onboarding-dots"></div>
                 <div id="onboarding-content"></div>
@@ -53,7 +53,7 @@
                                 <div class="cloud cloud-2"></div>
                             </div>
                             <div class="hills-back"></div>
-                            <svg class="svg-hero-forest" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax meet">
+                            <svg class="svg-hero-forest" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax meet" role="img" aria-label="EcoTrace decorative landscape showing trees, flowers, grass and a flying bird">
                                 <!-- Bush clusters -->
                                 <ellipse cx="60" cy="130" rx="30" ry="16" fill="#7CB342" opacity="0.7"/>
                                 <ellipse cx="340" cy="128" rx="26" ry="14" fill="#A5D6A7" opacity="0.7"/>
@@ -100,7 +100,7 @@
                                 <path class="bird-fly" d="M 30 35 Q 36 28, 42 35 Q 48 28, 54 35" fill="none" stroke="#5F6B65" stroke-width="1.8" stroke-linecap="round"/>
                             </svg>
                             <div class="hills-front"></div>
-                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
                                 <path d="M0 10 Q 25 15, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8"></path>
                                 <path d="M10 14 Q 30 11, 50 14 T 90 14" fill="none" stroke="white" stroke-width="0.5" opacity="0.4"/>
                             </svg>
@@ -159,9 +159,9 @@
                                 <div class="cloud cloud-2"></div>
                             </div>
                             <div class="hills-back" style="background-color: var(--sage);"></div>
-                            <svg class="svg-forest" id="dynamic-forest-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet"></svg>
+                            <svg class="svg-forest" id="dynamic-forest-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Your interactive digital forest showing your green habit progress"></svg>
                             <div class="hills-front" style="background-color: var(--leaf-green);"></div>
-                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                            <svg class="river-svg" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
                                 <path id="river-path" d="M0 10 Q 25 12, 50 10 T 100 10 L 100 20 L 0 20 Z" fill="#7FC8F8" opacity="0.8"></path>
                                 <path d="M8 13 Q 28 11, 50 13 T 92 13" fill="none" stroke="white" stroke-width="0.5" opacity="0.35"/>
                             </svg>
@@ -184,8 +184,8 @@
 
                     <!-- 7-Day Streak Dots -->
                     <div class="streak-section">
-                        <span class="streak-label"><i data-lucide="flame"></i> <span id="streak-count">0</span>-day streak</span>
-                        <div class="streak-dots" id="streak-dots"></div>
+                        <span class="streak-label"><i data-lucide="flame" aria-hidden="true"></i> <span id="streak-count">0</span>-day streak</span>
+                        <div class="streak-dots" id="streak-dots" role="img" aria-label="7-day streak status"></div>
                     </div>
                 </div>
 
@@ -216,7 +216,7 @@
                 <!-- Forest Coach Insights -->
                 <div class="organic-card">
                     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
-                        <i data-lucide="sparkles" style="color:var(--warning);width:20px;height:20px;"></i>
+                        <i data-lucide="sparkles" style="color:var(--warning);width:20px;height:20px;" aria-hidden="true"></i>
                         <h3>Forest Coach</h3>
                     </div>
                     <div id="ai-insights-block" class="insights-list"></div>
@@ -246,16 +246,16 @@
         </div>
 
         <!-- STICKY BOTTOM NAV -->
-        <nav class="bottom-nav-bar" id="bottom-nav" style="display:none;">
-            <a href="#" class="bottom-nav-item active" onclick="switchTab('forest',this)">
-                <i data-lucide="trees"></i><span>My Forest</span>
-            </a>
-            <a href="#" class="bottom-nav-item" onclick="switchTab('tracker',this)">
-                <i data-lucide="message-square-plus"></i><span>Quick Log</span>
-            </a>
-            <a href="#" class="bottom-nav-item" onclick="switchTab('community',this)">
-                <i data-lucide="users"></i><span>Community</span>
-            </a>
+        <nav class="bottom-nav-bar" id="bottom-nav" style="display:none;" aria-label="Bottom Navigation">
+            <button class="bottom-nav-item active" onclick="switchTab('forest',this)" aria-label="View Forest View">
+                <i data-lucide="trees" aria-hidden="true"></i><span>My Forest</span>
+            </button>
+            <button class="bottom-nav-item" onclick="switchTab('tracker',this)" aria-label="Open Quick Log Habit Tracker">
+                <i data-lucide="message-square-plus" aria-hidden="true"></i><span>Quick Log</span>
+            </button>
+            <button class="bottom-nav-item" onclick="switchTab('community',this)" aria-label="View Community Forest">
+                <i data-lucide="users" aria-hidden="true"></i><span>Community</span>
+            </button>
         </nav>
     </div>
 

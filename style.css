@@ -336,6 +336,11 @@ a {
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition-nature);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
 }
 
 .bottom-nav-item i {

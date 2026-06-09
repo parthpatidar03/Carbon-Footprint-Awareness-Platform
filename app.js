@@ -145,22 +145,25 @@ const COMMUNITY_USERS = [
 // ================================================================
 // INIT
 // ================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    loadState();
-    renderDailyTip();
-    renderForest();
-    renderConvoStep();
-    renderChallenges();
-    renderAchievements();
-    renderCommunity();
-    renderAIInsights();
-    updateUserLevelUI();
-    renderStreakDots();
-    lucide.createIcons();
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        loadState();
+        renderDailyTip();
+        renderForest();
+        renderConvoStep();
+        renderChallenges();
+        renderAchievements();
+        renderCommunity();
+        renderAIInsights();
+        updateUserLevelUI();
+        renderStreakDots();
+        lucide.createIcons();
+    });
+}
 
 // ---- STATE PERSISTENCE ----
 function loadState() {
+    if (typeof localStorage === 'undefined') return;
     const saved = localStorage.getItem('ecotrace_v3');
     if (saved) {
         try {
@@ -184,6 +187,7 @@ function loadState() {
     }
 }
 function saveState() {
+    if (typeof localStorage === 'undefined') return;
     localStorage.setItem('ecotrace_v3', JSON.stringify(appState));
 }
 
@@ -226,24 +230,51 @@ function renderOnboardingStep() {
     const q = ONBOARDING_QUIZ[onboardingStep];
     const dotsEl = document.getElementById('onboarding-dots');
     const content = document.getElementById('onboarding-content');
+    if (!dotsEl || !content) return;
 
     // Draw progress dots
-    dotsEl.innerHTML = ONBOARDING_QUIZ.map((_, i) =>
-        `<div class="ob-dot ${i <= onboardingStep ? 'active' : ''}"></div>`
-    ).join('');
+    dotsEl.innerHTML = '';
+    ONBOARDING_QUIZ.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = `ob-dot ${i <= onboardingStep ? 'active' : ''}`;
+        dotsEl.appendChild(dot);
+    });
 
-    content.innerHTML = `
-        <p class="ob-question">${q.q}</p>
-        <p class="ob-sub">${q.sub}</p>
-        <div class="ob-options">
-            ${q.options.map(opt => `
-                <button class="ob-option-btn" onclick="selectOnboardingAnswer('${opt.value}')">
-                    <span class="ob-emoji">${opt.emoji}</span>
-                    <span>${opt.text}</span>
-                </button>
-            `).join('')}
-        </div>
-    `;
+    content.innerHTML = '';
+    
+    const qText = document.createElement('p');
+    qText.className = 'ob-question';
+    qText.id = 'onboarding-title';
+    qText.textContent = q.q;
+    content.appendChild(qText);
+
+    const qSub = document.createElement('p');
+    qSub.className = 'ob-sub';
+    qSub.textContent = q.sub;
+    content.appendChild(qSub);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'ob-options';
+    q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'ob-option-btn';
+        btn.setAttribute('aria-label', opt.text);
+        btn.onclick = () => selectOnboardingAnswer(opt.value);
+
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'ob-emoji';
+        emojiSpan.setAttribute('role', 'img');
+        emojiSpan.setAttribute('aria-label', opt.text);
+        emojiSpan.textContent = opt.emoji;
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = opt.text;
+
+        btn.appendChild(emojiSpan);
+        btn.appendChild(textSpan);
+        optionsDiv.appendChild(btn);
+    });
+    content.appendChild(optionsDiv);
 }
 
 function selectOnboardingAnswer(value) {
@@ -293,80 +324,143 @@ function renderForest() {
     if (!svg) return;
     svg.innerHTML = '';
 
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    function createSVGElement(tag, attrs) {
+        const el = document.createElementNS(svgNS, tag);
+        for (let k in attrs) {
+            el.setAttribute(k, attrs[k]);
+        }
+        return el;
+    }
+
     // Render bushes
     appState.forest.bushes.forEach(b => {
-        svg.insertAdjacentHTML('beforeend', `
-            <ellipse cx="${b.x}" cy="${200 - b.size * 0.4}" rx="${b.size}" ry="${b.size * 0.6}" fill="#7CB342" opacity="0.75"/>
-            <ellipse cx="${b.x + b.size * 0.7}" cy="${200 - b.size * 0.3}" rx="${b.size * 0.7}" ry="${b.size * 0.45}" fill="#A5D6A7" opacity="0.7"/>
-        `);
+        const e1 = createSVGElement('ellipse', {
+            cx: b.x,
+            cy: 200 - b.size * 0.4,
+            rx: b.size,
+            ry: b.size * 0.6,
+            fill: "#7CB342",
+            opacity: "0.75"
+        });
+        const e2 = createSVGElement('ellipse', {
+            cx: b.x + b.size * 0.7,
+            cy: 200 - b.size * 0.3,
+            rx: b.size * 0.7,
+            ry: b.size * 0.45,
+            fill: "#A5D6A7",
+            opacity: "0.7"
+        });
+        svg.appendChild(e1);
+        svg.appendChild(e2);
     });
 
     // Render Grass tufts
     const grassPositions = [90, 160, 220, 280, 330];
     grassPositions.forEach(gx => {
-        svg.insertAdjacentHTML('beforeend', `
-            <line x1="${gx}" y1="198" x2="${gx+4}" y2="${185 + Math.random()*8}" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
-            <line x1="${gx+6}" y1="198" x2="${gx+8}" y2="${182 + Math.random()*10}" stroke="#7CB342" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="${gx+12}" y1="198" x2="${gx+13}" y2="${187 + Math.random()*7}" stroke="#4CAF50" stroke-width="1.5" stroke-linecap="round"/>
-        `);
+        const l1 = createSVGElement('line', {
+            x1: gx,
+            y1: 198,
+            x2: gx + 4,
+            y2: 185 + Math.random() * 8,
+            stroke: "#4CAF50",
+            "stroke-width": "2",
+            "stroke-linecap": "round"
+        });
+        const l2 = createSVGElement('line', {
+            x1: gx + 6,
+            y1: 198,
+            x2: gx + 8,
+            y2: 182 + Math.random() * 10,
+            stroke: "#7CB342",
+            "stroke-width": "1.5",
+            "stroke-linecap": "round"
+        });
+        const l3 = createSVGElement('line', {
+            x1: gx + 12,
+            y1: 198,
+            x2: gx + 13,
+            y2: 187 + Math.random() * 7,
+            stroke: "#4CAF50",
+            "stroke-width": "1.5",
+            "stroke-linecap": "round"
+        });
+        svg.appendChild(l1);
+        svg.appendChild(l2);
+        svg.appendChild(l3);
     });
 
     // Render Trees
     appState.forest.trees.forEach((tree, i) => {
-        const delay = i * 0.3;
+        const gOuter = createSVGElement('g', {
+            transform: `translate(${tree.x}, ${tree.y}) scale(${tree.scale})`
+        });
+        const gInner = createSVGElement('g', {
+            style: `animation: sway ${4.5 + (i % 3) * 0.8}s infinite ease-in-out alternate; transform-origin: 0px ${tree.type === 'pine' ? '22px' : '26px'};`
+        });
+
         if (tree.type === 'pine') {
-            svg.insertAdjacentHTML('beforeend', `
-                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})">
-                    <g style="animation: sway ${5 + i}s infinite ease-in-out alternate; transform-origin: 0px 22px;">
-                        <rect x="-4" y="0" width="8" height="22" fill="#8D6E63"/>
-                        <polygon points="0,-40 -22,-8 22,-8" fill="#1F4033"/>
-                        <polygon points="0,-53 -17,-22 17,-22" fill="#2E5E4E"/>
-                        <polygon points="0,-63 -11,-35 11,-35" fill="#A5D6A7"/>
-                    </g>
-                </g>
-            `);
+            const trunk = createSVGElement('rect', { x: "-4", y: "0", width: "8", height: "22", fill: "#8D6E63" });
+            const poly1 = createSVGElement('polygon', { points: "0,-40 -22,-8 22,-8", fill: "#1F4033" });
+            const poly2 = createSVGElement('polygon', { points: "0,-53 -17,-22 17,-22", fill: "#2E5E4E" });
+            const poly3 = createSVGElement('polygon', { points: "0,-63 -11,-35 11,-35", fill: "#A5D6A7" });
+            gInner.appendChild(trunk);
+            gInner.appendChild(poly1);
+            gInner.appendChild(poly2);
+            gInner.appendChild(poly3);
         } else {
-            // Oak
-            svg.insertAdjacentHTML('beforeend', `
-                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})">
-                    <g style="animation: sway ${4 + i * 0.7}s infinite ease-in-out alternate; transform-origin: 0px 26px;">
-                        <rect x="-5" y="0" width="10" height="26" fill="#8D6E63"/>
-                        <circle cx="0" cy="-22" r="20" fill="#2E5E4E"/>
-                        <circle cx="-11" cy="-28" r="15" fill="#4CAF50"/>
-                        <circle cx="12" cy="-26" r="13" fill="#7CB342"/>
-                        <circle cx="0" cy="-38" r="10" fill="#A5D6A7" opacity="0.8"/>
-                    </g>
-                </g>
-            `);
+            const trunk = createSVGElement('rect', { x: "-5", y: "0", width: "10", height: "26", fill: "#8D6E63" });
+            const c1 = createSVGElement('circle', { cx: "0", cy: "-22", r: "20", fill: "#2E5E4E" });
+            const c2 = createSVGElement('circle', { cx: "-11", cy: "-28", r: "15", fill: "#4CAF50" });
+            const c3 = createSVGElement('circle', { cx: "12", cy: "-26", r: "13", fill: "#7CB342" });
+            const c4 = createSVGElement('circle', { cx: "0", cy: "-38", r: "10", fill: "#A5D6A7", opacity: "0.8" });
+            gInner.appendChild(trunk);
+            gInner.appendChild(c1);
+            gInner.appendChild(c2);
+            gInner.appendChild(c3);
+            gInner.appendChild(c4);
         }
+
+        gOuter.appendChild(gInner);
+        svg.appendChild(gOuter);
     });
 
     // Render Flowers
     appState.forest.flowers.forEach(f => {
-        svg.insertAdjacentHTML('beforeend', `
-            <g transform="translate(${f.x}, ${f.y})">
-                <circle cx="0" cy="0" r="3.5" fill="${f.color}"/>
-                <circle cx="-4.5" cy="0" r="2.5" fill="#FFFFFF" opacity="0.9"/>
-                <circle cx="4.5" cy="0" r="2.5" fill="#FFFFFF" opacity="0.9"/>
-                <circle cx="0" cy="-4.5" r="2.5" fill="#FFFFFF" opacity="0.9"/>
-                <circle cx="0" cy="4.5" r="2.5" fill="#FFFFFF" opacity="0.9"/>
-            </g>
-        `);
+        const g = createSVGElement('g', { transform: `translate(${f.x}, ${f.y})` });
+        const cCenter = createSVGElement('circle', { cx: "0", cy: "0", r: "3.5", fill: f.color });
+        const cL = createSVGElement('circle', { cx: "-4.5", cy: "0", r: "2.5", fill: "#FFFFFF", opacity: "0.9" });
+        const cR = createSVGElement('circle', { cx: "4.5", cy: "0", r: "2.5", fill: "#FFFFFF", opacity: "0.9" });
+        const cT = createSVGElement('circle', { cx: "0", cy: "-4.5", r: "2.5", fill: "#FFFFFF", opacity: "0.9" });
+        const cB = createSVGElement('circle', { cx: "0", cy: "4.5", r: "2.5", fill: "#FFFFFF", opacity: "0.9" });
+
+        g.appendChild(cCenter);
+        g.appendChild(cL);
+        g.appendChild(cR);
+        g.appendChild(cT);
+        g.appendChild(cB);
+        svg.appendChild(g);
     });
 
-    // Birds (animated V-shapes in sky)
+    // Birds
     for (let b = 0; b < appState.forest.birds; b++) {
         const bx = 20 + b * 70;
         const by = 25 + b * 15;
-        svg.insertAdjacentHTML('beforeend', `
-            <path class="bird-fly" d="M ${bx} ${by} Q ${bx+6} ${by-7} ${bx+12} ${by} Q ${bx+18} ${by-7} ${bx+24} ${by}"
-                  fill="none" stroke="#5F6B65" stroke-width="1.8" stroke-linecap="round"
-                  style="animation-delay: ${b * 3}s;"/>
-        `);
+        const bird = createSVGElement('path', {
+            class: "bird-fly",
+            d: `M ${bx} ${by} Q ${bx+6} ${by-7} ${bx+12} ${by} Q ${bx+18} ${by-7} ${bx+24} ${by}`,
+            fill: "none",
+            stroke: "#5F6B65",
+            "stroke-width": "1.8",
+            "stroke-linecap": "round",
+            style: `animation-delay: ${b * 3}s;`
+        });
+        svg.appendChild(bird);
     }
 
     // Sway keyframes injected once
-    if (!document.getElementById('sway-keyframe')) {
+    if (typeof document !== 'undefined' && !document.getElementById('sway-keyframe')) {
         const style = document.createElement('style');
         style.id = 'sway-keyframe';
         style.textContent = `@keyframes sway { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }`;
@@ -617,26 +711,46 @@ function renderChallenges() {
     appState.challenges.forEach(ch => {
         const div = document.createElement('div');
         div.style.cssText = 'padding:0.9rem 1rem;background:var(--bg-earth);border-radius:16px;display:flex;justify-content:space-between;align-items:center;';
-        div.innerHTML = `
-            <div>
-                <strong style="display:block;font-family:var(--font-heading);color:var(--forest-dark);font-size:0.95rem;">${ch.title}</strong>
-                <span style="font-size:0.8rem;color:var(--text-secondary);">${ch.desc}</span>
-            </div>
-            ${ch.completed
-                ? `<span style="color:var(--leaf-green);font-weight:700;font-size:0.85rem;">✓ Done</span>`
-                : `<button class="btn-nav-action" style="padding:0.4rem 1rem;font-size:0.8rem;" onclick="triggerChallenge('${ch.id}')">+${ch.xp} XP</button>`
-            }
-        `;
+
+        const infoDiv = document.createElement('div');
+        const titleEl = document.createElement('strong');
+        titleEl.style.cssText = 'display:block;font-family:var(--font-heading);color:var(--forest-dark);font-size:0.95rem;';
+        titleEl.textContent = ch.title;
+        
+        const descEl = document.createElement('span');
+        descEl.style.cssText = 'font-size:0.8rem;color:var(--text-secondary);';
+        descEl.textContent = ch.desc;
+
+        infoDiv.appendChild(titleEl);
+        infoDiv.appendChild(descEl);
+        div.appendChild(infoDiv);
+
+        if (ch.completed) {
+            const doneSpan = document.createElement('span');
+            doneSpan.style.cssText = 'color:var(--leaf-green);font-weight:700;font-size:0.85rem;';
+            doneSpan.textContent = '✓ Done';
+            div.appendChild(doneSpan);
+        } else {
+            const btn = document.createElement('button');
+            btn.className = 'btn-nav-action';
+            btn.style.cssText = 'padding:0.4rem 1rem;font-size:0.8rem;';
+            btn.textContent = `+${ch.xp} XP`;
+            btn.setAttribute('aria-label', `Complete challenge: ${ch.title} for ${ch.xp} XP`);
+            btn.onclick = () => triggerChallenge(ch.id);
+            div.appendChild(btn);
+        }
         container.appendChild(div);
     });
 }
 
-window.triggerChallenge = function(id) {
-    incrementChallenge(id);
-    saveState();
-    renderChallenges();
-    updateUserLevelUI();
-};
+if (typeof window !== 'undefined') {
+    window.triggerChallenge = function(id) {
+        incrementChallenge(id);
+        saveState();
+        renderChallenges();
+        updateUserLevelUI();
+    };
+}
 
 // ================================================================
 // ACHIEVEMENTS / BADGES
@@ -649,13 +763,24 @@ function renderAchievements() {
         const icons = { sprout: 'sprout', bike: 'bike', trees: 'trees', beef: 'beef' };
         const div = document.createElement('div');
         div.className = `badge-leaf ${badge.unlocked ? 'unlocked' : ''}`;
-        div.innerHTML = `
-            <div class="badge-leaf-icon"><i data-lucide="${icons[badge.icon] || 'award'}"></i></div>
-            <span>${badge.name}</span>
-        `;
+        
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'badge-leaf-icon';
+        const iconEl = document.createElement('i');
+        iconEl.setAttribute('data-lucide', icons[badge.icon] || 'award');
+        iconEl.setAttribute('aria-hidden', 'true');
+        iconDiv.appendChild(iconEl);
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = badge.name;
+
+        div.appendChild(iconDiv);
+        div.appendChild(nameSpan);
         container.appendChild(div);
     });
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 }
 
 // ================================================================
@@ -668,16 +793,34 @@ function renderCommunity() {
     COMMUNITY_USERS.forEach(u => {
         const div = document.createElement('div');
         div.className = 'user-row';
-        div.innerHTML = `
-            <div class="user-details">
-                <div class="user-avatar">${u.icon}</div>
-                <div>
-                    <strong style="display:block;font-size:0.9rem;">${u.name}</strong>
-                    <span style="font-size:0.75rem;color:var(--text-secondary);">${u.rank}</span>
-                </div>
-            </div>
-            <span style="font-weight:700;color:var(--primary-forest);font-size:0.85rem;">🌲 ${u.trees} trees</span>
-        `;
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'user-details';
+
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'user-avatar';
+        avatarDiv.textContent = u.icon;
+
+        const metaDiv = document.createElement('div');
+        const nameEl = document.createElement('strong');
+        nameEl.style.cssText = 'display:block;font-size:0.9rem;';
+        nameEl.textContent = u.name;
+
+        const rankEl = document.createElement('span');
+        rankEl.style.cssText = 'font-size:0.75rem;color:var(--text-secondary);';
+        rankEl.textContent = u.rank;
+
+        metaDiv.appendChild(nameEl);
+        metaDiv.appendChild(rankEl);
+        detailsDiv.appendChild(avatarDiv);
+        detailsDiv.appendChild(metaDiv);
+
+        const treesSpan = document.createElement('span');
+        treesSpan.style.cssText = 'font-weight:700;color:var(--primary-forest);font-size:0.85rem;';
+        treesSpan.textContent = `🌲 ${u.trees} trees`;
+
+        div.appendChild(detailsDiv);
+        div.appendChild(treesSpan);
         container.appendChild(div);
     });
 }
@@ -711,11 +854,37 @@ function renderAIInsights() {
 
     const challenge = appState.user.onboardingAnswers.challenge || 'default';
     const pool = [...(INSIGHTS_MAP[challenge] || []), ...INSIGHTS_MAP.default];
-    // Show 2 relevant tips
     pool.slice(0, 2).forEach(ins => {
         const row = document.createElement('div');
         row.className = 'insight-row';
-        row.innerHTML = `<span class="ins-icon">${ins.icon}</span><span>${ins.text}</span>`;
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'ins-icon';
+        iconSpan.setAttribute('role', 'img');
+        iconSpan.setAttribute('aria-label', 'Tip icon');
+        iconSpan.textContent = ins.icon;
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = ins.text;
+
+        row.appendChild(iconSpan);
+        row.appendChild(textSpan);
         container.appendChild(row);
     });
+}
+
+// ---- MODULE EXPORTS FOR JEST TESTING ----
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        appState,
+        getRankForLevel,
+        gainXP,
+        unlockBadge,
+        incrementChallenge,
+        personalizeFromOnboarding,
+        updateStreak,
+        DAILY_TIPS,
+        ONBOARDING_QUIZ,
+        RANKS
+    };
 }
