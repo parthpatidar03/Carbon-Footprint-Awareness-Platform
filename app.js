@@ -316,22 +316,26 @@ function renderForest() {
         const delay = i * 0.3;
         if (tree.type === 'pine') {
             svg.insertAdjacentHTML('beforeend', `
-                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})" style="animation: sway ${5 + i}s infinite ease-in-out alternate; transform-origin: ${tree.x}px 200px;">
-                    <rect x="-4" y="0" width="8" height="22" fill="#8D6E63"/>
-                    <polygon points="0,-40 -22,-8 22,-8" fill="#1F4033"/>
-                    <polygon points="0,-53 -17,-22 17,-22" fill="#2E5E4E"/>
-                    <polygon points="0,-63 -11,-35 11,-35" fill="#A5D6A7"/>
+                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})">
+                    <g style="animation: sway ${5 + i}s infinite ease-in-out alternate; transform-origin: 0px 22px;">
+                        <rect x="-4" y="0" width="8" height="22" fill="#8D6E63"/>
+                        <polygon points="0,-40 -22,-8 22,-8" fill="#1F4033"/>
+                        <polygon points="0,-53 -17,-22 17,-22" fill="#2E5E4E"/>
+                        <polygon points="0,-63 -11,-35 11,-35" fill="#A5D6A7"/>
+                    </g>
                 </g>
             `);
         } else {
             // Oak
             svg.insertAdjacentHTML('beforeend', `
-                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})" style="animation: sway ${4 + i * 0.7}s infinite ease-in-out alternate; transform-origin: ${tree.x}px 200px;">
-                    <rect x="-5" y="0" width="10" height="26" fill="#8D6E63"/>
-                    <circle cx="0" cy="-22" r="20" fill="#2E5E4E"/>
-                    <circle cx="-11" cy="-28" r="15" fill="#4CAF50"/>
-                    <circle cx="12" cy="-26" r="13" fill="#7CB342"/>
-                    <circle cx="0" cy="-38" r="10" fill="#A5D6A7" opacity="0.8"/>
+                <g transform="translate(${tree.x}, ${tree.y}) scale(${tree.scale})">
+                    <g style="animation: sway ${4 + i * 0.7}s infinite ease-in-out alternate; transform-origin: 0px 26px;">
+                        <rect x="-5" y="0" width="10" height="26" fill="#8D6E63"/>
+                        <circle cx="0" cy="-22" r="20" fill="#2E5E4E"/>
+                        <circle cx="-11" cy="-28" r="15" fill="#4CAF50"/>
+                        <circle cx="12" cy="-26" r="13" fill="#7CB342"/>
+                        <circle cx="0" cy="-38" r="10" fill="#A5D6A7" opacity="0.8"/>
+                    </g>
                 </g>
             `);
         }

@@ -36,14 +36,15 @@ The visual language is inspired by:
 
 ## 🏗️ How It Works
 
-### 1. Landing Page
-Beautiful hero section with a living landscape visualization, animated clouds, swaying trees, and a flowing river. CTA leads users into the personal forest dashboard.
+### 1. Landing Page & Onboarding Quiz
+Beautiful hero section with a living landscape visualization. A 3-question personalized onboarding quiz tailors the experience, challenges, and AI coaching before entering the dashboard.
 
 ### 2. Living Forest Dashboard
 A dynamic SVG-based digital ecosystem that **grows over time** as the user logs eco-friendly habits:
-- New oak and pine trees appear with each positive log
-- Wildflowers bloom alongside active habits
-- Birds appear when footprint is significantly offset
+- New oak and pine trees, bush clusters, and grass tufts appear
+- A glowing sun and flying bird animations bring the forest to life
+- **7-Day Streak Dots** track daily consistency
+- **Today's Eco Tip** rotates daily at the top of the dashboard
 
 ### 3. Conversational Daily Log
 Instead of complex data forms, users answer 3 friendly questions:
@@ -51,7 +52,7 @@ Instead of complex data forms, users answer 3 friendly questions:
 2. 🥦 *"What did your meals look like?"* — Vegan/Vegetarian/Mixed/Heavy Meat
 3. ⚡ *"Any green actions?"* — Unplug devices / Short shower / No plastics
 
-Each positive selection generates **immediate forest feedback** — trees grow, flowers bloom.
+Each positive selection generates **immediate forest feedback** — trees grow, flowers bloom, and an **Impact Toast** floats up showing exact CO₂ saved (e.g., "🌱 You saved 4.5kg CO₂").
 
 ### 4. Gamification System
 Progress tracked through a 6-tier rank system:
